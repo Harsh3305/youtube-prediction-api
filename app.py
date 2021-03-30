@@ -6,7 +6,6 @@ app = Flask(__name__)
 
 import json
 
-
 @app.route('/')
 def hello_world():
     return render_template('index.html',context="Hello world" )
@@ -82,3 +81,9 @@ def predict_likes (categoryId, view_count, video_count, subscriber_count):
 
     print ('Predicted : ', int(10**y_pred))
     return int(10**y_pred)
+
+
+
+if __name__ == '__main__':
+    # Threaded option to enable multiple instances for multiple user access support
+    app.run(threaded=True, port=5000)
