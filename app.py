@@ -1,7 +1,7 @@
 import pickle as pickle
 import math
 from scipy.sparse import hstack
-from flask import Flask
+from flask import Flask, render_template
 app = Flask(__name__)
 
 import json
@@ -10,7 +10,7 @@ import json
 
 @app.route('/')
 def hello_world():
-    return 'Hello, World!'
+    return render_template('index.html',context="Hello world" )
 
 @app.route('/categoryId/<categoryId>/view_count/<view_count>/video_count/<video_count>/subscriber_count/<subscriber_count>')
 def profile(categoryId, view_count, video_count, subscriber_count):
