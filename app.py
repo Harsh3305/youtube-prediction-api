@@ -7,12 +7,6 @@ app = Flask(__name__)
 import json
 
 
-# @app.route("/post_field", methods=["GET", "POST"])
-# def need_input():
-#     for key, value in request.form.items():
-#         print("key: {0}, value: {1}".format(key, value))
-#     return "hello"
-
 @app.route('/')
 def hello_world():
     return render_template('index.html',context="Hello world" )
@@ -29,7 +23,7 @@ def profile(categoryId, view_count, video_count, subscriber_count):
 
     # the result is a JSON string:
     print(y)
-    return
+    return "Done"
 
 def predict_likes (categoryId, view_count, video_count, subscriber_count):
 
