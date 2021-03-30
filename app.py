@@ -24,7 +24,7 @@ def profile(categoryId, view_count, video_count, subscriber_count):
 
     # the result is a JSON string:
     print(y)
-    return y
+    return
 
 def predict_likes (categoryId, view_count, video_count, subscriber_count):
 
