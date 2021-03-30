@@ -1,88 +1,49 @@
-import pickle as pickle
-import math
-from scipy.sparse import hstack
-from flask import Flask, render_template, request
+from flask import Flask, request, jsonify
 app = Flask(__name__)
 
-import json
+@app.route('/getmsg/', methods=['GET'])
+def respond():
+    # Retrieve the name from url parameter
+    name = request.args.get("name", None)
 
-@app.route('/')
-def hello_world():
-    return render_template('index.html',context="Hello world" )
+    # For debugging
+    print(f"got name {name}")
 
-@app.route('/categoryId/<categoryId>/view_count/<view_count>/video_count/<video_count>/subscriber_count/<subscriber_count>')
-def profile(categoryId, view_count, video_count, subscriber_count):
-    likes = predict_likes(categoryId, view_count, video_count, subscriber_count)
-    x = {
-    "likes": likes
-    }
+    response = {}
 
-    # convert into JSON:
-    y = json.dumps(x)
-
-    # the result is a JSON string:
-    print(y)
-    return "Done"
-
-def predict_likes (categoryId, view_count, video_count, subscriber_count):
-
-
-
-    numerical_features = []
-    categorical_features = []
-
-    # categoryId = int(input("Enter categoryID: "))
-    duration = 1
-    # view_count = int(input("Enter views count of channel: "))
-
-    # video_count = int(input("Enter video count of channel:" ))
-    # subscriber_count = int(input("Enter subscriber count of channel: "))
-
-
-    numerical_features = []    
-    numerical_features.append([
-        categoryId,
-        duration,
-        view_count,
-        video_count,
-        subscriber_count,
-    ]) 
-
-    categorical_features = []
-    categorical_features.append(["None"])
-
-    with open('Models/my_numerical_encoder.pkl', 'rb') as fid:
-        numencoder = pickle.load(fid)
-    with open('Models/my_categorical_encoder.pkl', 'rb') as fid:
-        catencoder = pickle.load(fid)
-
-
-    numerical_features2 = numencoder.transform(numerical_features)
-
-    categorical_features2 = catencoder.transform(categorical_features)
-
-    X = hstack([numerical_features2, categorical_features2])
-
-
-    with open('Models/my_dumped_classifier.pkl', 'rb') as fid:
-        model = pickle.load(fid)
-        
-    y_pred = [] 
-    y_pred = model.predict(X)
-    y_lower = math.floor(y_pred)
-    y_upper = math.ceil(y_pred)
-    y_pred_lower  = 10**y_lower
-    y_pred_upper  = 10**y_upper
-
-    if (y_upper == y_lower):
-        print(y_pred_lower)
+    # Check if user sent a name at all
+    if not name:
+        response["ERROR"] = "no name found, please send a name."
+    # Check if the user entered a number not a name
+    elif str(name).isdigit():
+        response["ERROR"] = "name can't be numeric."
+    # Now the user entered a valid name
     else:
-        print(y_pred_lower, y_pred_upper)
+        response["MESSAGE"] = f"Welcome {name} to our awesome platform!!"
 
-    print ('Predicted : ', int(10**y_pred))
-    return int(10**y_pred)
+    # Return the response in json format
+    return jsonify(response)
 
+@app.route('/post/', methods=['POST'])
+def post_something():
+    param = request.form.get('name')
+    print(param)
+    # You can add the test cases you made in the previous function, but in our case here you are just testing the POST functionality
+    if param:
+        return jsonify({
+            "Message": f"Welcome {name} to our awesome platform!!",
+            # Add this option to distinct the POST request
+            "METHOD" : "POST"
+        })
+    else:
+        return jsonify({
+            "ERROR": "no name found, please send a name."
+        })
 
+# A welcome message to test our server
+@app.route('/')
+def index():
+    return "<h1>Welcome to our server !!</h1>"
 
 if __name__ == '__main__':
     # Threaded option to enable multiple instances for multiple user access support
