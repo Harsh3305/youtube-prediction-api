@@ -7,11 +7,11 @@ app = Flask(__name__)
 import json
 
 
-@app.route("/post_field", methods=["GET", "POST"])
-def need_input():
-    for key, value in request.form.items():
-        print("key: {0}, value: {1}".format(key, value))
-    return "hello"
+# @app.route("/post_field", methods=["GET", "POST"])
+# def need_input():
+#     for key, value in request.form.items():
+#         print("key: {0}, value: {1}".format(key, value))
+#     return "hello"
 
 @app.route('/')
 def hello_world():
