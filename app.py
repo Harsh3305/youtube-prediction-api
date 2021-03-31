@@ -21,7 +21,7 @@ def profile(categoryId, view_count, video_count, subscriber_count):
 
     # convert into JSON:
     y = json.dumps(x)
-
+    y = json.loads(y)
     # # the result is a JSON string:
     # print(y)
     # print(likes)
