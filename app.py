@@ -2,7 +2,7 @@ from flask import Flask, jsonify
 import pickle as pickle
 import math
 from scipy.sparse import hstack
-
+import json
 app = Flask(__name__)
 
 
@@ -15,9 +15,17 @@ def index():
 @app.route('/categoryId/<categoryId>/view_count/<view_count>/video_count/<video_count>/subscriber_count/<subscriber_count>')
 def profile(categoryId, view_count, video_count, subscriber_count):
     likes = predict_likes(categoryId, view_count, video_count, subscriber_count)
+    x = {
+        "likes": likes
+    }
 
-    print(likes)
-    return str(likes)
+    # convert into JSON:
+    y = json.dumps(x)
+
+    # # the result is a JSON string:
+    # print(y)
+    # print(likes)
+    return jsonify(y)
 
 def predict_likes (categoryId, view_count, video_count, subscriber_count):
 
