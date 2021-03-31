@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify
 import pickle as pickle
 import math
 from scipy.sparse import hstack
