@@ -15,9 +15,9 @@ def index():
 @app.route('/categoryId/<categoryId>/view_count/<view_count>/video_count/<video_count>/subscriber_count/<subscriber_count>')
 def profile(categoryId, view_count, video_count, subscriber_count):
     likes = predict_likes(categoryId, view_count, video_count, subscriber_count)
-    
+
     print(likes)
-    return likes
+    return str(likes)
 
 def predict_likes (categoryId, view_count, video_count, subscriber_count):
 
