@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return "<h1> Deployed to Heroku</h1>"
+    return "Hello"
 
 
 if __name__ == "__main__":
