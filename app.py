@@ -4,6 +4,7 @@ import math
 from scipy.sparse import hstack
 import json
 from nltk.sentiment import SentimentIntensityAnalyzer
+import nltk
 app = Flask(__name__)
 nltk.download('vader_lexicon')
 
