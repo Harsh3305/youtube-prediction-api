@@ -5,7 +5,7 @@ from scipy.sparse import hstack
 import json
 from nltk.sentiment import SentimentIntensityAnalyzer
 app = Flask(__name__)
-
+nltk.download('vader_lexicon')
 
 @app.route('/')
 def index():
