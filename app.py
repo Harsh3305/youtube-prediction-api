@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 import pickle as pickle
 import math
 from scipy.sparse import hstack
@@ -13,25 +13,26 @@ def index():
     return "Hello"
 
 
+@app.route('/PredictLikes', methods=["GET"])
+def profile():
+    try:
+        json_data = request.json
+        categoryId = json_data["categoryId"]
+        view_count = json_data["view_count"]
+        video_count = json_data["video_count"]
+        subscriber_count = json_data["subscriber_count"]
+        video_title = json_data["video_title"]
+        description = json_data["description"]
+        likes = predict_likes(categoryId, view_count, video_count, subscriber_count, video_title, description)
+        x = {
+            "likes": likes
+        }
+        y = json.dumps(x)
+        y = json.loads(y)
+        return jsonify(y)
+    except TypeError :
+        return "No data found"
 
-@app.route('/categoryId/<categoryId>/view_count/<view_count>/video_count/<video_count>/subscriber_count/<subscriber_count>/video_titile/<video_titile>/description/<description>')
-def profile(categoryId, view_count, video_count, subscriber_count, video_titile, description):
-    subscriber_count = int(subscriber_count)
-    categoryId = int(categoryId)
-    view_count = int(view_count)
-    
-    likes = predict_likes(categoryId, view_count, video_count, subscriber_count, video_titile, description)
-    x = {
-        "likes": likes
-    }
-
-    # convert into JSON:
-    y = json.dumps(x)
-    y = json.loads(y)
-    # # the result is a JSON string:
-    # print(y)
-    # print(likes)
-    return jsonify(y)
 
 
 def find_sentiment(title, description, sid):
