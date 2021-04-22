@@ -13,7 +13,7 @@ def index():
     return "Hello"
 
 
-@app.route('/PredictLikes', methods=["GET"])
+@app.route('/PredictLikes', methods=["POST"])
 def profile():
     try:
         json_data = request.json
